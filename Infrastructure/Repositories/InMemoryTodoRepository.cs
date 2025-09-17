@@ -11,10 +11,8 @@ namespace Infrastructure.Repositories
     public class InMemoryTodoRepository : ITodoRepository
     {
         private readonly List<TodoItem> _items = new();
-        private int _nextId = 1;
         public Task AddAsync(TodoItem item)
         {
-            _nextId++;
             item.Guid = Guid.NewGuid();
             item.CreatedAt = DateTime.UtcNow;
             _items.Add(item);
