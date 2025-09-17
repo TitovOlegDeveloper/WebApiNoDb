@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
         public Task AddAsync(TodoItem item)
         {
             _nextId++;
-            item.Guid = new Guid();
+            item.Guid = Guid.NewGuid();
             item.CreatedAt = DateTime.UtcNow;
             _items.Add(item);
             return Task.CompletedTask;
