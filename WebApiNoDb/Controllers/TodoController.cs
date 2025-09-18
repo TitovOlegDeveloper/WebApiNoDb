@@ -37,6 +37,32 @@ namespace WebApiNoDb.Controllers
             return CreatedAtAction(nameof(GetById), new { guid = createdItem.Guid }, createdItem);
         }
 
+        [HttpDelete("{guid}")]
+        public async Task<ActionResult> Delete(Guid guid)
+        {
+            await _todoService.DeleteItemAsync(guid);
+            return NoContent();
+        }
+        [HttpPut("{guid}")] 
+        public async Task<ActionResult<TodoItemDto>> Update(
+            Guid guid, 
+            [FromBody] TodoItemDto updateDto) 
+        {
+            try
+            {
+                if (guid != updateDto.Guid)
+                {
+                    return BadRequest("ID в URL не совпадает с ID в теле запроса");
+                }
+
+                await _todoService.UpdateItemAsync(updateDto);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }
